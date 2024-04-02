@@ -246,6 +246,7 @@
     <string name="title_pref_fragment_length">Fragment Length (min-max)</string>
     <string name="title_pref_fragment_interval">Fragment Interval (min-max)</string>
     <string name="title_pref_fragment_enabled">Enable Fragment</string>
+    <string name="sub_setting_razer_url">Razr key</string>
 
     <string-array name="share_method">
         <item>QRcode</item>

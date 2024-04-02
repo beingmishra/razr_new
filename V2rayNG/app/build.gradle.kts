@@ -81,6 +81,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar","*.jar"))))
+    implementation ("com.google.firebase:firebase-database-ktx:20.3.1")
     testImplementation("junit:junit:4.13.2")
 
     // Androidx
