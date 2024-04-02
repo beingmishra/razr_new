@@ -18,7 +18,7 @@ import com.razr.vpn.util.MmkvManager
 import com.razr.vpn.util.QRCodeDecoder
 import com.razr.vpn.util.Utils
 
-class SubSettingRecyclerAdapter(val activity: SubSettingActivity) :
+class SubSettingRecyclerAdapter(val activity: SubSettingActivity, private val clickListener: OnItemClickListener) :
     RecyclerView.Adapter<SubSettingRecyclerAdapter.MainViewHolder>() {
 
     private var mActivity: SubSettingActivity = activity
@@ -48,6 +48,11 @@ class SubSettingRecyclerAdapter(val activity: SubSettingActivity) :
                     .putExtra("subId", subId)
             )
         }
+
+        holder.itemSubSettingBinding.layoutDelete.setOnClickListener {
+            clickListener.onItemClick(subId)
+        }
+
         holder.itemSubSettingBinding.infoContainer.setOnClickListener {
             subItem.enabled = !subItem.enabled
             subStorage?.encode(subId, Gson().toJson(subItem))

@@ -15,6 +15,7 @@ import android.view.KeyEvent
 import com.razr.vpn.AppConfig
 import android.content.res.ColorStateList
 import android.os.Build
+import android.os.Handler
 import com.google.android.material.navigation.NavigationView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -109,6 +110,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupViewModel()
         copyAssets()
         migrateLegacy()
+
+        Handler().postDelayed({
+            mainViewModel.testAllTcping()
+        }, 2000)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             RxPermissions(this)
@@ -291,7 +296,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //            true
 //        }
 
-        R.id.sub_update -> {
+        /*R.id.sub_update -> {
             importConfigViaSub()
             true
         }
@@ -303,7 +308,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 toast(R.string.toast_failure)
             }
             true
-        }
+        }*/
 
         R.id.ping_all -> {
             mainViewModel.testAllTcping()
@@ -682,7 +687,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.user_asset_setting -> {
                 startActivity(Intent(this, UserAssetActivity::class.java))
             }
-            R.id.feedback -> {
+            /*R.id.feedback -> {
                 Utils.openUri(this, AppConfig.v2rayNGIssues)
             }
             R.id.promotion -> {
@@ -690,7 +695,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.logcat -> {
                 startActivity(Intent(this, LogcatActivity::class.java))
-            }
+            }*/
             R.id.privacy_policy-> {
                 Utils.openUri(this, AppConfig.v2rayNGPrivacyPolicy)
             }
