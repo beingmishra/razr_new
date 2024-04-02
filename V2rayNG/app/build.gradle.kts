@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.v2ray.ang"
+    namespace = "com.razr.vpn"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.v2ray.ang"
+        applicationId = "com.razr.vpn"
         minSdk = 21
         targetSdk = 34
         versionCode = 550
@@ -61,7 +61,7 @@ android {
                 else
                     "all"
 
-                output.outputFileName = "v2rayNG_${variant.versionName}_${abi}.apk"
+                output.outputFileName = "Razr_${variant.versionName}_${abi}.apk"
                 if(versionCodes.containsKey(abi))
                 {
                     output.versionCodeOverride = (1000000 * versionCodes[abi]!!).plus(variant.versionCode)
