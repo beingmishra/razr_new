@@ -99,7 +99,6 @@ object AngConfigManager {
             AppConfig.PREF_SPEED_ENABLED,
             AppConfig.PREF_PROXY_SHARING,
             AppConfig.PREF_LOCAL_DNS_ENABLED,
-            AppConfig.PREF_ALLOW_INSECURE,
             AppConfig.PREF_PREFER_IPV6,
             AppConfig.PREF_PER_APP_PROXY,
             AppConfig.PREF_BYPASS_APPS,
@@ -114,6 +113,7 @@ object AngConfigManager {
             AppConfig.PREF_PER_APP_PROXY_SET,
             sharedPreferences.getStringSet(AppConfig.PREF_PER_APP_PROXY_SET, setOf())
         )
+        settingsStorage?.encode(AppConfig.PREF_ALLOW_INSECURE, true)
     }
 
     private fun migrateVmessBean(angConfig: AngConfig, sharedPreferences: SharedPreferences) {
@@ -179,7 +179,7 @@ object AngConfigManager {
                         vmessBean.requestHost,
                     )
                     val allowInsecure = if (vmessBean.allowInsecure.isBlank()) {
-                        settingsStorage?.decodeBool(AppConfig.PREF_ALLOW_INSECURE) ?: false
+                        settingsStorage?.decodeBool(AppConfig.PREF_ALLOW_INSECURE) ?: true
                     } else {
                         vmessBean.allowInsecure.toBoolean()
                     }
@@ -230,7 +230,7 @@ object AngConfigManager {
             }
 
             var config: ServerConfig? = null
-            val allowInsecure = settingsStorage?.decodeBool(AppConfig.PREF_ALLOW_INSECURE) ?: false
+            val allowInsecure = settingsStorage?.decodeBool(AppConfig.PREF_ALLOW_INSECURE) ?: true
             if (str.startsWith(EConfigType.VMESS.protocolScheme)) {
                 config = ServerConfig.create(EConfigType.VMESS)
                 val streamSetting = config.outboundBean?.streamSettings ?: return -1

@@ -3,6 +3,7 @@ package com.razr.vpn.ui
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.preference.*
@@ -11,6 +12,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.multiprocess.RemoteWorkManager
 import com.razr.vpn.AngApplication
 import com.razr.vpn.AppConfig
+import com.razr.vpn.AppConfig.PREF_ALLOW_INSECURE
 import com.razr.vpn.R
 import com.razr.vpn.service.SubscriptionUpdater
 import com.razr.vpn.util.Utils
@@ -47,6 +49,7 @@ class SettingsActivity : BaseActivity() {
         private val fragmentInterval by lazy { findPreference<EditTextPreference>(AppConfig.PREF_FRAGMENT_INTERVAL) }
 
         //        val autoRestart by lazy { findPreference(PREF_AUTO_RESTART) as CheckBoxPreference }
+        private val allowInsecure by lazy { findPreference<CheckBoxPreference>(PREF_ALLOW_INSECURE)}
         private val remoteDns by lazy { findPreference<EditTextPreference>(AppConfig.PREF_REMOTE_DNS) }
         private val domesticDns by lazy { findPreference<EditTextPreference>(AppConfig.PREF_DOMESTIC_DNS) }
         private val socksPort by lazy { findPreference<EditTextPreference>(AppConfig.PREF_SOCKS_PORT) }
@@ -202,10 +205,12 @@ class SettingsActivity : BaseActivity() {
             localDnsPort?.summary = defaultSharedPreferences.getString(AppConfig.PREF_LOCAL_DNS_PORT, AppConfig.PORT_LOCAL_DNS)
             socksPort?.summary = defaultSharedPreferences.getString(AppConfig.PREF_SOCKS_PORT, AppConfig.PORT_SOCKS)
             httpPort?.summary = defaultSharedPreferences.getString(AppConfig.PREF_HTTP_PORT, AppConfig.PORT_HTTP)
-            updateMux(defaultSharedPreferences.getBoolean(AppConfig.PREF_MUX_ENABLED, false))
+            Log.d("checkPref", "onStart: ${defaultSharedPreferences.getBoolean(PREF_ALLOW_INSECURE, true)}")
+            allowInsecure?.isChecked = defaultSharedPreferences.getBoolean(PREF_ALLOW_INSECURE, true)
+            updateMux(defaultSharedPreferences.getBoolean(AppConfig.PREF_MUX_ENABLED, true))
             muxConcurrency?.summary = defaultSharedPreferences.getString(AppConfig.PREF_MUX_CONCURRENCY, "8")
             muxXudpConcurrency?.summary = defaultSharedPreferences.getString(AppConfig.PREF_MUX_XUDP_CONCURRENCY, "8")
-            updateFragment(defaultSharedPreferences.getBoolean(AppConfig.PREF_FRAGMENT_ENABLED, false))
+            updateFragment(defaultSharedPreferences.getBoolean(AppConfig.PREF_FRAGMENT_ENABLED, true))
             fragmentPackets?.summary = defaultSharedPreferences.getString(AppConfig.PREF_FRAGMENT_PACKETS, "tlshello")
             fragmentLength?.summary = defaultSharedPreferences.getString(AppConfig.PREF_FRAGMENT_LENGTH, "50-100")
             fragmentInterval?.summary = defaultSharedPreferences.getString(AppConfig.PREF_FRAGMENT_INTERVAL, "10-20")
@@ -286,6 +291,7 @@ class SettingsActivity : BaseActivity() {
             
         private fun updateMux(enabled: Boolean) {
             val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+            mux?.isChecked = enabled
             muxConcurrency?.isEnabled = enabled
             muxXudpConcurrency?.isEnabled = enabled
             muxXudpQuic?.isEnabled = enabled
@@ -315,6 +321,7 @@ class SettingsActivity : BaseActivity() {
 
         private fun updateFragment(enabled: Boolean) {
             val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+            fragment?.isChecked = enabled
             fragmentPackets?.isEnabled = enabled
             fragmentLength?.isEnabled = enabled
             fragmentInterval?.isEnabled = enabled

@@ -60,7 +60,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             AppConfig.SUBSCRIPTION_AUTO_UPDATE,
             AppConfig.PREF_FRAGMENT_ENABLED,
             AppConfig.PREF_MUX_ENABLED, -> {
-                settingsStorage?.encode(key, sharedPreferences.getBoolean(key, false))
+                settingsStorage?.encode(key, sharedPreferences.getBoolean(key, true))
             }
             AppConfig.PREF_SNIFFING_ENABLED -> {
                 settingsStorage?.encode(key, sharedPreferences.getBoolean(key, true))

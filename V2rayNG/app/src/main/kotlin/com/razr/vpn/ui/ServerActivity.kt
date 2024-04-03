@@ -511,7 +511,7 @@ class ServerActivity : BaseActivity() {
             sni = sniField
         }
         val allowInsecure = if (allowinsecures[allowInsecureField].isBlank()) {
-            settingsStorage?.decodeBool(PREF_ALLOW_INSECURE) ?: false
+            settingsStorage?.decodeBool(PREF_ALLOW_INSECURE) ?: true
         } else {
             allowinsecures[allowInsecureField].toBoolean()
         }

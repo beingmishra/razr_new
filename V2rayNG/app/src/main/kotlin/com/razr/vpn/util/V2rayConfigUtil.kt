@@ -500,7 +500,7 @@ object V2rayConfigUtil {
 
     private fun updateOutboundWithGlobalSettings(outbound: V2rayConfig.OutboundBean): Boolean {
         try {
-            var muxEnabled = settingsStorage?.decodeBool(AppConfig.PREF_MUX_ENABLED, false)
+            var muxEnabled = settingsStorage?.decodeBool(AppConfig.PREF_MUX_ENABLED, true)
             val protocol = outbound.protocol
             if (protocol.equals(EConfigType.SHADOWSOCKS.name, true)
                 || protocol.equals(EConfigType.SOCKS.name, true)
@@ -570,7 +570,7 @@ object V2rayConfigUtil {
 
     private fun updateOutboundFragment(v2rayConfig: V2rayConfig): Boolean {
         try {
-            if (settingsStorage?.decodeBool(AppConfig.PREF_FRAGMENT_ENABLED, false) == false) {
+            if (settingsStorage?.decodeBool(AppConfig.PREF_FRAGMENT_ENABLED, true) == false) {
                 return true
             }
             if (v2rayConfig.outbounds[0].streamSettings?.security != V2rayConfig.TLS
